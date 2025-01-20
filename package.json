@@ -1,7 +1,11 @@
 {
-  "name": "exa-ai-mcp-server",
+  "name": "@mcprouter/exa-ai-mcp-server",
+  "version": "1.0.11",
   "module": "index.ts",
   "type": "module",
+  "bin": {
+    "@mcprouter/exa-ai-mcp-server": "./index.ts" 
+  },
   "scripts": {
     "inpsect": "bunx @modelcontextprotocol/inspector bun run index.ts",
     "run": "bun run index.ts"

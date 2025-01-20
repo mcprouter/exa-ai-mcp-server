@@ -1,3 +1,4 @@
+#!/usr/bin/env bun
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
@@ -9,10 +10,6 @@ import {
 
 import type { Tool } from "@modelcontextprotocol/sdk/types.js";
 
-// TODO:
-// - privide examples of all the different types (prompt, tool, resource, others?)
-// - example of API and loading API key from env
-
 const server = new Server(
   {
     name: "mcp-starter",
@@ -20,9 +17,7 @@ const server = new Server(
   },
   {
     capabilities: {
-      resources: {},
       tools: {},
-      logging: {},
     },
   }
 );
