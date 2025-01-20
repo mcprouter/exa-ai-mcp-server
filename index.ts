@@ -5,56 +5,80 @@ import {
   CallToolRequestSchema,
   ErrorCode,
   ListToolsRequestSchema,
-  McpError
+  McpError,
 } from "@modelcontextprotocol/sdk/types.js";
 
 import type { Tool } from "@modelcontextprotocol/sdk/types.js";
 
 const server = new Server(
   {
-    name: "mcp-starter",
-    version: "0.1.0",
+    name: "@mcprouter/exa-ai-mcp-server",
+    version: "1.0.11",
   },
   {
     capabilities: {
       tools: {},
     },
-  }
+  },
 );
 
-const HELLO_TOOL: Tool = {
-  name: "hello_tool",
-  description: "Hello tool",
+const SEARCH_TOOL: Tool = {
+  name: "search",
+  description: "Search on exa.ai",
   inputSchema: {
     type: "object",
     properties: {
-      name: {
+      query: {
         type: "string",
-        description: "The name of the person to greet",
+        description: "The query to send to Exa.ai to search the web for",
       },
     },
-    required: ["name"],
+    required: ["query"],
   },
 };
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: [HELLO_TOOL],
+  tools: [SEARCH_TOOL],
 }));
 
-function doHello(name: string) {
-  return {
-    message: `Hello, ${name}!`,
+async function search(query: string) {
+  const api_key = process.env.EXA_API_KEY;
+
+  if (!api_key) {
+    throw new Error("EXA_API_KEY is required");
+  }
+
+  const options = {
+    method: "POST",
+    headers: {
+      "x-api-key": api_key,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ query }),
   };
+
+  const response = await fetch("https://api.exa.ai/search", options);
+
+  const text = await response.text();
+
+  return [
+    {
+      type: "text",
+      text,
+    },
+  ];
 }
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  if (request.params.name === "hello_tool") {
-    console.error("Hello tool", request.params.arguments);
-    const input = request.params.arguments as { name: string };
-    return doHello(input.name);
+  if (request.params.name === "search") {
+    const input = request.params.arguments as { query: string };
+    return { content: await search(input.query) };
   }
 
-  throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${request.params.name}`);
+  throw new McpError(
+    ErrorCode.MethodNotFound,
+    `Unknown tool: ${request.params.name}`,
+  );
 });
 
 server.onerror = (error: any) => {
