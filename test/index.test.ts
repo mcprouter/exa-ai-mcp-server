@@ -11,7 +11,8 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 
 const transport = new StdioClientTransport({
-  command: "./index.ts",
+  command: "bun run src/index.ts",
+  args: ["run", "src/index.ts"],
   env: {
     ...getDefaultEnvironment(),
     EXA_API_KEY: process.env.EXA_API_KEY ?? "",

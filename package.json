@@ -1,22 +1,23 @@
 {
   "name": "@mcprouter/exa-ai-mcp-server",
-  "version": "1.0.11",
-  "module": "index.ts",
+  "version": "1.0.21",
   "type": "module",
-  "bin": {
-    "@mcprouter/exa-ai-mcp-server": "./index.ts" 
-  },
+  "homepage": "https://mcprouter.com",
+  "bugs": "https://github.com/mcprouter/exa-ai-mcp-server/issues",
+  "bin": "src/index.ts",
   "scripts": {
-    "inpsect": "bunx @modelcontextprotocol/inspector bun run index.ts",
-    "run": "bun run index.ts"
+    "inspect": "bunx @modelcontextprotocol/inspector bun run index.ts",
+    "dev": "bun run src/index.ts"
   },
   "devDependencies": {
+    "shx": "^0.4.0",
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.1.1"
+    "@modelcontextprotocol/sdk": "^1.10.1",
+    "zod": "^3.24.3"
   }
 }
