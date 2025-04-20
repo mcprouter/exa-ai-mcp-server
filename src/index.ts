@@ -5,7 +5,7 @@ import { z } from "zod";
 
 const server = new McpServer({
   name: "@mcprouter/exa-ai-mcp-server",
-  version: "1.0.11",
+  version: "1.0.22",
 });
 
 // Define the search tool with Zod schema
