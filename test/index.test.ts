@@ -11,7 +11,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 
 const transport = new StdioClientTransport({
-  command: "bun run src/index.ts",
+  command: "bun",
   args: ["run", "src/index.ts"],
   env: {
     ...getDefaultEnvironment(),

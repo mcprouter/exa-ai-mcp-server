@@ -12,9 +12,9 @@ const server = new McpServer({
 server.tool(
   "search",
   {
-    question: z.string(),
+    query: z.string(),
   },
-  async ({ question }) => {
+  async ({ query }) => {
     const api_key = process.env.EXA_API_KEY;
 
     if (!api_key) {
@@ -27,7 +27,7 @@ server.tool(
         "x-api-key": api_key,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ question }),
+      body: JSON.stringify({ query }),
     };
 
     const response = await fetch("https://api.exa.ai/search", options);
