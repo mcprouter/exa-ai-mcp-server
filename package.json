@@ -7,7 +7,9 @@
   "bin": "src/index.ts",
   "scripts": {
     "inspect": "bunx @modelcontextprotocol/inspector bun run index.ts",
-    "dev": "bun run src/index.ts"
+    "dev": "bun run src/index.ts",
+    "dev:home": "op run --env-file=.env.development -- bun run dev",
+    "test:home": "op run --env-file=.env.development -- bun test"
   },
   "devDependencies": {
     "shx": "^0.4.0",
