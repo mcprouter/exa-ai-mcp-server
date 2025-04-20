@@ -27,7 +27,7 @@ server.tool(
         "x-api-key": api_key,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ query, text: true }),
     };
 
     const response = await fetch("https://api.exa.ai/search", options);
