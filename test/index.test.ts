@@ -42,7 +42,7 @@ test("List tools should work", async () => {
   expect(toolResponse.tools.length).toBe(1);
 });
 
-test("Call search tool should work", async () => {
+test("Call search tool should work with default fullText", async () => {
   const toolResponse = await client.request(
     {
       method: "tools/call",
@@ -55,4 +55,22 @@ test("Call search tool should work", async () => {
   );
 
   expect(toolResponse.content[0].text).toContain("Josh Allen");
+});
+
+test("Call search tool should work with explicit fullText parameter", async () => {
+  const toolResponse = await client.request(
+    {
+      method: "tools/call",
+      params: {
+        name: "search",
+        arguments: { 
+          query: "buffalo bills quarterback 2024",
+          fullText: false 
+        },
+      },
+    },
+    CallToolResultSchema,
+  );
+
+  expect(toolResponse.content[0].text).toBeDefined();
 });

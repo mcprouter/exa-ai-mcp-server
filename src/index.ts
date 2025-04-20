@@ -5,7 +5,7 @@ import { z } from "zod";
 
 const server = new McpServer({
   name: "@mcprouter/exa-ai-mcp-server",
-  version: "1.0.22",
+  version: "1.0.23",
 });
 
 // Define the search tool with Zod schema
@@ -13,8 +13,9 @@ server.tool(
   "search",
   {
     query: z.string(),
+    fullText: z.boolean().optional().default(true),
   },
-  async ({ query }) => {
+  async ({ query, fullText }) => {
     const api_key = process.env.EXA_API_KEY;
 
     if (!api_key) {
@@ -27,7 +28,7 @@ server.tool(
         "x-api-key": api_key,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query, text: true }),
+      body: JSON.stringify({ query, text: fullText }),
     };
 
     const response = await fetch("https://api.exa.ai/search", options);
