@@ -14,5 +14,15 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version-file: ".bun-version"
+      - uses: 1password/load-secrets-action/configure@v2
+        with:
+          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+      - name: Load exa api key
+        uses: 1password/load-secrets-action@v2
+        with:
+          # Export loaded secrets as environment variables
+          export-env: true
+        env:
+          EXA_API_KEY: op://mcprouter-test/exa-ai-api-key/credential
       - run: bun install --frozen-lockfile
       - run: bun test
